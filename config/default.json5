@@ -1,0 +1,12 @@
+{
+	"slack": {
+		"client_id": "1234567890.12345678901",
+		"client_secret": "xxx"
+	},
+	"elasticsearch": {
+		"host": "localhost:9200",
+		"index": "vandelayindustries"
+	},
+	"imageBaseUrl": "https://cdn.vandelayindustries.online/",
+	"port": 8080
+}
