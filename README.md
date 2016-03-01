@@ -1,6 +1,6 @@
 # vandelayindustries-slack-server
 
-Post gifs from Seinfeld to Slack. An introduction to this and a technical writeup of the GIF processing is available here.
+Post gifs from Seinfeld to Slack. An introduction to this and a technical writeup of the GIF processing is available [here](https://medium.com/@bertrandom/unfundable-slack-bots-9369a75fdd).
 
 ## installation
 
