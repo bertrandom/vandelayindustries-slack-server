@@ -4,6 +4,10 @@
     <meta charset="utf-8">
     <title>Vandelay Industries</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta property="og:title" content="Vandelay Industries"/>
+  <meta property="og:description" content="Post gifs from Seinfeld to Slack."/>
+  <meta property="og:site_name" content="Vandelay Industries"/>
+  <meta property="og:image" content="https://vandelayindustries.online/img/vandelay.gif"/>
 
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
 
@@ -22,7 +26,7 @@
 
 	<div class="mastfoot">
 	<div class="inner">
-	  <p>Created by <a href="https://twitter.com/bertrandom">@bertrandom</a>.</p>
+	  <p>Created by <a href="https://twitter.com/bertrandom">@bertrandom</a>. <a href="https://medium.com/@bertrandom/unfundable-slack-bots-9369a75fdd">Obligatory Medium post</a>.</p>
 	</div>
 	</div>
 
