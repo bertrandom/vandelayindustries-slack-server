@@ -4,7 +4,7 @@
   <nav>
     <ul class="nav masthead-nav">
       <li><a href="/">Home</a></li>
-      <li><a href="https://medium.com/@bertrandom/unfundable-slack-bots-9369a75fdd">Explanation</a></li>
+      <li><a href="https://medium.com/@bertrandom/unfundable-slack-bots-9369a75fdd">How it works</a></li>
     </ul>
   </nav>
 </div>
