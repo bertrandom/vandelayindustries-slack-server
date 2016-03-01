@@ -1,12 +1,12 @@
 {
-  "name": "vandelayindustries-server",
+  "name": "vandelayindustries-slack-server",
   "version": "1.0.0",
-  "description": "",
-  "main": "search.js",
+  "description": "Post gifs from Seinfeld to Slack",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Bertrand Fan <bertrand@fan.net>",
   "license": "ISC",
   "dependencies": {
     "agentkeepalive": "^2.0.3",
