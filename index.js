@@ -136,7 +136,7 @@ app.post('/search', function (req, res) {
             });
 
             if (clips.length === 0) {
-                res.json({
+                return res.json({
                     "response_type": "ephemeral",
                     "attachments": [{
                         "text": 'Could not match ' + searchQuery,
