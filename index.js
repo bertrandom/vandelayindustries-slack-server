@@ -6,6 +6,7 @@ var sprintf = require("sprintf-js").sprintf;
 var bodyParser = require('body-parser');
 var OAuth = require('oauth');
 var exphbs  = require('express-handlebars');
+var crypto = require('crypto');
 
 var OAuth2 = OAuth.OAuth2;    
 var oauth2 = new OAuth2(config.slack.client_id,
@@ -58,6 +59,32 @@ app.get('/oauth', function (req, res) {
             res.redirect('/complete');
         }
     );
+
+});
+
+app.post('/select', function (req, res) {
+
+    if (!(req.body && typeof req.body.payload !== 'undefined')) {
+
+        return res.status(500).json({
+            ok: false,
+            error: "payload_missing"
+        });
+
+    }
+
+    var payload = JSON.parse(req.body.payload);
+    var clip = JSON.parse(payload.actions[0].value);
+
+    res.json({
+        "response_type": "in_channel",
+        "delete_original": true,
+        "replace_original": true,
+        "attachments": [{
+            "text": 'Season ' + clip.season + ', ' + 'Episode: ' + clip.episode,
+            "image_url": clip.url,
+        }]
+    });
 
 });
 
@@ -144,16 +171,32 @@ app.post('/search', function (req, res) {
                 });
             }
 
-            var clip = clips[Math.floor(Math.random() * (clips.length))];
-            
-            var text = clip.text.replace("\n",' ');
+            var attachments = [];
+
+            clips.forEach(function (clip) {
+
+                var text = clip.text.replace("\n",' ');
+
+                var attachment = {
+                    "text": 'Season ' + clip.season + ', ' + 'Episode: ' + clip.episode,
+                    "image_url": clip.url,
+                    "callback_id": crypto.randomBytes(32).toString('hex'),
+                    "actions": [{
+                        "name": "select",
+                        "text": "Select",
+                        "type": "button",
+                        "value": JSON.stringify(clip)
+                    }]
+                };
+
+                attachments.push(attachment);
+
+            });
 
             res.json({
-                "response_type": "in_channel",
-                "attachments": [{
-                    "text": 'Season ' + clip.season + ', ' + 'Episode: ' + clip.episode,
-                    "image_url": clip.url
-                }]
+                "response_type": "ephemeral",
+                "text": "Please select a clip to post to the channel:",
+                "attachments": attachments
             });
 
         }
