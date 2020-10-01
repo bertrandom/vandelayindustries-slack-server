@@ -11,8 +11,8 @@ var OAuth2 = OAuth.OAuth2;
 var oauth2 = new OAuth2(config.slack.client_id,
     config.slack.client_secret,
     'https://slack.com/', 
-    '/oauth/authorize',
-    '/api/oauth.access', 
+    'oauth/authorize',
+    'api/oauth.access', 
     null);
 
 var client = new elasticsearch.Client({
