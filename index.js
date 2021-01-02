@@ -80,8 +80,8 @@ app.post('/search', function (req, res) {
             query: {
                 "bool": {
                     "must": {
-                        match: {
-                            text: searchQuery
+                        "match_phrase": {
+                            "title": searchQuery
                         },
                     },
                     "must_not": [{
