@@ -1,0 +1,1 @@
+{"vandelayindustries":{"mappings":{"properties":{"duration":{"type":"keyword"},"endTime":{"type":"keyword"},"episode":{"type":"long"},"frame":{"type":"long"},"season":{"type":"long"},"seasonEpisode":{"type":"keyword"},"startTime":{"type":"keyword"},"text":{"type":"text"}}}}}
