@@ -4,7 +4,8 @@
 		"client_secret": "xxx"
 	},
 	"elasticsearch": {
-		"host": "localhost:9200",
+		"node": "https://localhost:9200",
+		"api_key_encoded": "xxx",
 		"index": "vandelayindustries"
 	},
 	"imageBaseUrl": "https://cdn.vandelayindustries.online/",

@@ -9,12 +9,13 @@
   "author": "Bertrand Fan <bertrand@fan.net>",
   "license": "ISC",
   "dependencies": {
+    "@elastic/elasticsearch": "^8.11.0",
     "agentkeepalive": "^2.0.3",
     "body-parser": "^1.15.0",
     "config": "^1.19.0",
-    "elasticsearch": "^10.1.3",
     "express": "^4.13.4",
     "express-handlebars": "^3.0.0",
+    "node-jsonl": "^0.1.0",
     "oauth": "^0.9.14",
     "sprintf-js": "^1.0.3"
   }

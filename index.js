@@ -1,11 +1,11 @@
 var config = require('config');
-var elasticsearch = require('elasticsearch');
 var AgentKeepAlive = require('agentkeepalive');
 var express = require('express');
 var sprintf = require("sprintf-js").sprintf;
 var bodyParser = require('body-parser');
 var OAuth = require('oauth');
 var exphbs  = require('express-handlebars');
+var fs = require('fs');
 
 var OAuth2 = OAuth.OAuth2;    
 var oauth2 = new OAuth2(config.slack.client_id,
@@ -15,15 +15,17 @@ var oauth2 = new OAuth2(config.slack.client_id,
     'api/oauth.access', 
     null);
 
-var client = new elasticsearch.Client({
-    host: config.elasticsearch.host,
-    sniffOnStart: true,
-    maxSockets: 10,
-    log: 'error',
-    createNodeAgent: function (connection, config) {
-        return new AgentKeepAlive(connection.makeAgentConfig(config));
+const { Client } = require('@elastic/elasticsearch')
+const client = new Client({
+    node: config.elasticsearch.node,
+    auth: {
+        apiKey: config.elasticsearch.api_key_encoded,
+    },
+    tls: {
+        ca: fs.readFileSync('./certs/http_ca.crt'),
+        rejectUnauthorized: false
     }
-});
+})
 
 var app = express();
 
@@ -61,7 +63,7 @@ app.get('/oauth', function (req, res) {
 
 });
 
-app.post('/search', function (req, res) {
+app.post('/search', async function (req, res) {
 
     if (!(req.body && typeof req.body.text !== 'undefined')) {
 
@@ -74,41 +76,17 @@ app.post('/search', function (req, res) {
 
     var searchQuery = req.body.text;
 
-    client.search({
-        index: config.elasticsearch.index,
-        body: {
+    try {
+
+        response = await client.search({
+            index: config.elasticsearch.index,
             query: {
-                "bool": {
-                    "must": {
-                        match: {
-                            text: searchQuery
-                        },
-                    },
-                    "must_not": [{
-                        "match": {
-                          "seasonEpisode": "S06E14"
-                        }
-                    },{
-                        "match": {
-                          "seasonEpisode": "S09E23"
-                        }
-                    }]
+                match: {
+                    text: searchQuery
                 }
-            }
-        },
-        size: 5
-    }, function (error, response) {
-
-        if (error) {
-
-            res.json({
-                "response_type": "ephemeral",
-                "attachments": [{
-                    "text": 'Oops, there was an error searching for ' + searchQuery,
-                }]
-            });
-
-        }
+            },
+            size: 5
+        });
 
         var output = {};
 
@@ -156,24 +134,36 @@ app.post('/search', function (req, res) {
                 }]
             });
 
-        }
+        }        
 
-    });
+    } catch (error) {
+
+        res.json({
+            "response_type": "ephemeral",
+            "attachments": [{
+                "text": 'Oops, there was an error searching for ' + searchQuery,
+            }]
+        });
+
+    }
 
 });
 
-client.ping({
-    requestTimeout: 30000,
-}, function (error) {
 
-    if (error) {
+async function main() {
+    try {
+        const result = await client.info();
+        console.log('Elasticsearch v' + result.version.number + ' is running...');
+
+        app.listen(config.port, function () {
+            console.log('Server started on port ' + config.port + '.');
+        });
+
+    } catch (error) {
         console.error('Elasticsearch is not available at ' + config.elasticsearch.host);
         process.exit(1);
         return;
     }
-
-    app.listen(config.port, function () {
-        console.log('Server started on port ' + config.port + '.');
-    });
-
-});
+}
+  
+main();

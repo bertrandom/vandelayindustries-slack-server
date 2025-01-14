@@ -2,3 +2,4 @@
 node_modules
 sftp-config.json
 config/local.json5
+config/prod.json5
